@@ -12,10 +12,15 @@ python --version >nul 2>&1
 if !errorlevel! neq 0 (
     python3 --version >nul 2>&1
     if !errorlevel! neq 0 (
-        echo [ERROR] Python not found! 
-        echo Please install Python from https://www.python.org/
-        pause
-        exit /b 1
+        py --version >nul 2>&1
+        if !errorlevel! neq 0 (
+            echo [ERROR] Python not found! 
+            echo Please install Python from https://www.python.org/
+            pause
+            exit /b 1
+        ) else (
+            set PY_EXE=py
+        )
     ) else (
         set PY_EXE=python3
     )
@@ -26,7 +31,7 @@ if !errorlevel! neq 0 (
 REM 2. Check if venv is valid for Windows
 if exist "venv\" (
     if not exist "venv\Scripts\activate" (
-        echo [INFO] Incompatible virtual environment detected (Mac/Linux).
+        echo [INFO] Incompatible virtual environment detected - Mac/Linux.
         echo [INFO] Recreating environment for Windows...
         rmdir /s /q venv
     )
