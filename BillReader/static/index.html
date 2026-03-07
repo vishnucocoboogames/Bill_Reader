@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Reconciliation Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="background-elements">
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo-area">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="url(#paint0_linear)" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    <defs>
+                        <linearGradient id="paint0_linear" x1="3" y1="2" x2="21" y2="22" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#3B82F6" />
+                            <stop offset="1" stop-color="#8B5CF6" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>Bill Reconciliation</h1>
+            </div>
+            <p class="subtitle">Automated validation and routing for Excel utility bills.</p>
+        </header>
+
+        <main>
+            <form id="reconciliation-form" class="glass-card">
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="prev_month_dir">Previous Month Folder (HT Chk)</label>
+                        <div class="input-row">
+                            <input type="text" id="prev_month_dir" name="prev_month_dir" placeholder="/Users/.../HT Chk"
+                                required>
+                            <button type="button" class="browse-btn" data-target="prev_month_dir">Browse</button>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="curr_month_dir">Current Month Folder (HT)</label>
+                        <div class="input-row">
+                            <input type="text" id="curr_month_dir" name="curr_month_dir" placeholder="/Users/.../HT"
+                                required>
+                            <button type="button" class="browse-btn" data-target="curr_month_dir">Browse</button>
+                        </div>
+                    </div>
+
+                    <div class="input-group highlight-group">
+                        <label for="checked_dir">Valid Output Folder (Checked)</label>
+                        <div class="input-row">
+                            <input type="text" id="checked_dir" name="checked_dir"
+                                placeholder="/Users/.../Output/Checked" required>
+                            <button type="button" class="browse-btn" data-target="checked_dir">Browse</button>
+                        </div>
+                    </div>
+
+                    <div class="input-group highlight-group">
+                        <label for="manual_review_dir">Flags Output Folder (Manual Review)</label>
+                        <div class="input-row">
+                            <input type="text" id="manual_review_dir" name="manual_review_dir"
+                                placeholder="/Users/.../Output/Manual_Review" required>
+                            <button type="button" class="browse-btn" data-target="manual_review_dir">Browse</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" id="run-btn" class="primary-btn">
+                        <span class="btn-text">Run Reconciliation</span>
+                        <div class="loader hidden"></div>
+                    </button>
+                </div>
+            </form>
+
+            <div id="status-card" class="glass-card result-card hidden">
+                <div class="status-header">
+                    <div class="status-indicator processing"></div>
+                    <h3 id="status-title">Processing...</h3>
+                </div>
+                <div class="status-body">
+                    <p id="status-message">Your request is running in the background.</p>
+                    <div class="progress-bar-container">
+                        <div id="progress-bar-fill" class="progress-bar indeterminate"></div>
+                    </div>
+                    <p id="progress-text"
+                        style="text-align: right; font-size: 0.8rem; margin-top: 0.5rem; color: var(--text-secondary);">
+                    </p>
+                </div>
+            </div>
+
+            <div id="result-card" class="glass-card result-card hidden success-state">
+                <div class="status-header">
+                    <div class="status-icon">✅</div>
+                    <h3>Reconciliation Complete</h3>
+                </div>
+                <div class="status-body">
+                    <p>The routing process finished successfully. The report was generated at:</p>
+                    <div class="code-block" id="report-path">/path/to/report.csv</div>
+                </div>
+                <button id="reset-btn" class="secondary-btn">Process New Batch</button>
+            </div>
+
+            <div id="error-card" class="glass-card result-card hidden error-state">
+                <div class="status-header">
+                    <div class="status-icon">❌</div>
+                    <h3>Processing Failed</h3>
+                </div>
+                <div class="status-body">
+                    <p id="error-message">An unexpected error occurred.</p>
+                </div>
+                <button id="retry-btn" class="secondary-btn">Try Again</button>
+            </div>
+        </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+
+</html>
