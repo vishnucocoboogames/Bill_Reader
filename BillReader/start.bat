@@ -16,5 +16,12 @@ if not exist "venv\" (
 
 REM Activate virtual environment and start the server
 call venv\Scripts\activate
-start "" http://127.0.0.1:8000
+
+REM Wait 3 seconds for server to start, then open browser
+start /b cmd /c "timeout /t 3 /nobreak >nul && start "" http://127.0.0.1:8000"
+
+echo Server running at http://127.0.0.1:8000
+echo Press Ctrl+C to stop the server.
+echo.
+
 uvicorn src.main:app --port 8000
