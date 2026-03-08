@@ -3,7 +3,26 @@ from typing import Tuple, List, Dict, Any
 class ValidationService:
     def __init__(self, static_fields: List[str] = None):
         # We check the specific mapped keys extracted by the file parser
-        self.static_fields = static_fields or ["Cname", "Caddress", "CntdLoad"]
+        self.static_fields = static_fields or (
+            # --- Table 1: Meter Config (specific rows from column D) ---
+            ["cfg_R5", "cfg_R13", "cfg_R64", "cfg_R66", "cfg_R67", "cfg_R68", "cfg_R121"] +
+            # --- Table 3: Bill Parameters (L5:L19) ---
+            [
+                "Cno",            # Consumer Number
+                "Cname",          # Consumer Name
+                "Caddress",       # Consumer address
+                "Eduty",          # Electricity Duty
+                "GST",            # GST No
+                "CntdLoad",       # Connected Load
+                "CnnDate",        # Connection Date
+                "Fsrcharge",      # Fuel Surcharge
+                "FxdCharge",      # Fixed Charge
+                "gstper",         # GST %
+                "lowvsurcharge",  # Low Voltage Surcharge
+                "KFC",            # KFC%
+                "Communication Charges / Meter Hire"
+            ]
+        )
         
     def validate_consumer_records(self, prev_data: Dict[str, Any], curr_data: Dict[str, Any]) -> Tuple[bool, str]:
         """

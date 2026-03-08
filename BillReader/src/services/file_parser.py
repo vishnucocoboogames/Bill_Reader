@@ -52,12 +52,22 @@ class FileParserService:
             if "Bill Parameter Mapping" in wb.sheetnames:
                 mapping_sheet = wb["Bill Parameter Mapping"]
                 
-                # Extract simple static code-value pairs from columns K and L
-                for row in mapping_sheet.iter_rows(min_row=1, max_row=200, min_col=11, max_col=12):
-                    code = row[0].value
-                    val = row[1].value
+                # Extract specific meter config parameters from Table 1: column D
+                # Only check user-specified static rows
+                for r in [5, 13, 64, 66, 67, 68, 121]:
+                    val = mapping_sheet.cell(row=r, column=4).value    # Column D
+                    data[f"cfg_R{r}"] = val
+
+                # Extract simple static code-value pairs from Table 3: columns J, K and L
+                # J=Parameter (10), K=Code (11), L=Mapping Bill Value (12)
+                for row in mapping_sheet.iter_rows(min_row=1, max_row=200, min_col=10, max_col=12):
+                    param = row[0].value
+                    code = row[1].value
+                    val = row[2].value
                     if code:
                         data[str(code).strip()] = val
+                    elif param:
+                        data[str(param).strip()] = val
                         
                 # Extract the actual reading metrics which are un-cached on the front sheet
                 # Column F (6): "Curr. Month Cumulative Energy for TOU[X]" -> Column H (8) is FR
