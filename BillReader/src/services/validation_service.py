@@ -72,4 +72,23 @@ class ValidationService:
             except ValueError:
                 return False, f"Non-numeric reading values encountered for '{prev_key}' or '{curr_key}'."
 
+        # 3. Check L20 of current bill == H20 of previous bill
+        #    Previous bill H20 = "Curr. Month Cumulative Energy (KWh)" → key CKWh
+        #    Current  bill L20 = "Last Month Cumulative Energy, kWh"   → key LMCKWh
+        prev_ckwh   = prev_data.get("CKWh")
+        curr_lmckwh = curr_data.get("LMCKWh")
+
+        if prev_ckwh is None or curr_lmckwh is None:
+            return False, "Missing CKWh or LMCKWh value for energy continuity check (H20/L20)."
+
+        try:
+            if abs(float(prev_ckwh) - float(curr_lmckwh)) > 0.05:
+                return False, (
+                    f"Energy reading mismatch (H20/L20): "
+                    f"Prev month CKWh (H20)={prev_ckwh}, "
+                    f"Curr month LMCKWh (L20)={curr_lmckwh}"
+                )
+        except ValueError:
+            return False, "Non-numeric CKWh/LMCKWh values for energy continuity check (H20/L20)."
+
         return True, "Valid"

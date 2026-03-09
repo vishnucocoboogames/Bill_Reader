@@ -96,6 +96,11 @@ class FileParserService:
                                 data["Peak-IR"] = mapping_sheet.cell(row=r, column=12).value
                             elif "TOU3" in lbl:
                                 data["Offpeak-IR"] = mapping_sheet.cell(row=r, column=12).value
+                # Row 20: Curr. Month Cumulative Energy (KWh) → H20 (col 8)
+                # Row 20: Last Month Cumulative Energy, kWh  → L20 (col 12)
+                data["CKWh"]   = mapping_sheet.cell(row=20, column=8).value
+                data["LMCKWh"] = mapping_sheet.cell(row=20, column=12).value
+
             else:
                 raise ValueError("Corrupted Excel structure. Missing 'Bill Parameter Mapping' sheet.")
                 
