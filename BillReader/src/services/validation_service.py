@@ -5,7 +5,7 @@ class ValidationService:
         # We check the specific mapped keys extracted by the file parser
         self.static_fields = static_fields or (
             # --- Table 1: Meter Config (specific rows from column D) ---
-            ["cfg_R5", "cfg_R13", "cfg_R64", "cfg_R66", "cfg_R67", "cfg_R68", "cfg_R121"] +
+            ["cfg_R5", "cfg_R13", "cfg_R64", "cfg_R66", "cfg_R67", "cfg_R68", "cfg_R121", "cfg_R125", "cfg_R126"] +
             # --- Table 3: Bill Parameters (L5:L19) ---
             [
                 "Cno",            # Consumer Number

@@ -54,7 +54,7 @@ class FileParserService:
                 
                 # Extract specific meter config parameters from Table 1: column D
                 # Only check user-specified static rows
-                for r in [5, 13, 64, 66, 67, 68, 121]:
+                for r in [5, 13, 64, 66, 67, 68, 121, 125, 126]:
                     val = mapping_sheet.cell(row=r, column=4).value    # Column D
                     data[f"cfg_R{r}"] = val
 
